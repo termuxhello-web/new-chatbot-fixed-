@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Cute</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Nhập tin nhắn...">
+    <button id="send-btn">Gửi</button>
+  </div>
+  
+  <script src="rep.js"></script>
+  <script>
+    const input = document.getElementById("user-input");
+    const btn = document.getElementById("send-btn");
+    const chatBox = document.getElementById("chat-box");
+
+    // hàm thêm tin nhắn vào khung chat
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.className = sender;
+      msg.innerText = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // hàm tìm câu rep theo keyword
+    function getReply(inputText) {
+      inputText = inputText.toLowerCase();
+      for (let key in chatData) {
+        if (inputText.includes(key)) {
+          return chatData[key];
+        }
+      }
+      return "Tui hong hiểu bạn nói gì 🐰💭";
+    }
+
+    // sự kiện bấm nút Gửi
+    btn.addEventListener("click", () => {
+      sendMessage();
+    });
+
+    // sự kiện nhấn Enter
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+
+    // hàm gửi tin nhắn
+    function sendMessage() {
+      const text = input.value.trim();
+      if (text) {
+        addMessage("user", text);
+        const reply = getReply(text);
+        addMessage("bot", reply);
+        input.value = "";
+      }
+    }
+  </script>
+</body>
+    </html>
